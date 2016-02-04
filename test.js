@@ -6,17 +6,15 @@ const options = {
 
 const API = require('./lib/request')(options)
 
-var query = API.find('platform').where({slug: 'npm'}).select('_id,name,slug')
+const Platform = API.model('platform')
 
-console.log('URL: ', query.getUrl())
-
-query
-.send()
+Platform.find({slug: 'npm'}).select('name').limit(2).exec()
 .then(platforms => console.log(platforms))
 .catch(error => console.log(error))
 
-API
-.find('platform', 'npm')
-.send()
+Platform.findOne('npm').select('name').exec()
 .then(platform => console.log(platform))
 .catch(error => console.log(error))
+
+let url = Platform.find({slug: 'npm'}).select('name').limit(2).offset(10).getUrl()
+console.log(url)

@@ -7,7 +7,7 @@ const options = {
   baseUrl: 'http://localhost:3001/api'
 }
 
-const apiRequest = require('./lib/request')(options)
+const apiRequest = require('rest-api-request')(options)
 ```
 ## Get single item
 

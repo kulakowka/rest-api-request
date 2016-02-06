@@ -1,4 +1,19 @@
-# The project is under development
+# Rest-api-request
+
+[![npm package](https://nodei.co/npm/rest-api-request.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/request/)
+
+[![NPM version](http://img.shields.io/npm/v/rest-api-request.svg)](https://www.npmjs.org/package/rest-api-request)
+[![Dependency Status](https://david-dm.org/kulakowka/rest-api-request.svg)](https://david-dm.org/kulakowka/rest-api-request)
+[![devDependency Status](https://david-dm.org/kulakowka/rest-api-request/dev-status.svg)](https://david-dm.org/kulakowka/tracer#info=devDependencies)
+
+
+## Install
+
+```
+npm install rest-api-request --save
+```
+
+
 
 # Full example
 

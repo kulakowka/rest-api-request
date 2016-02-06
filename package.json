@@ -1,6 +1,6 @@
 {
   "name": "rest-api-request",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Library for easy communication with the API server",
   "main": "lib/request.js",
   "repository": {
@@ -11,7 +11,7 @@
     "node": ">=5.0.0"
   },
   "keywords": [
-    "api", 
+    "api",
     "request"
   ],
   "author": "Anton Kulakov <kulakowka@gmail.com>",
@@ -21,7 +21,8 @@
   "license": "MIT",
   "dependencies": {
     "request": "^2.69.0"
+  },
+  "devDependencies": {
+    "async": "^1.5.2"
   }
 }
-
-

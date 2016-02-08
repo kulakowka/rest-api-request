@@ -13,8 +13,6 @@
 npm install rest-api-request --save
 ```
 
-
-
 # Full example
 
 ```javascript
@@ -137,6 +135,140 @@ const API = require('rest-api-request')(options)
 const User = API.model('user')
 ```
 
+## Build url string without request
+
+If you do not want to use the package [request](https://www.npmjs.com/package/request#requestoptions-callback) for api calls, you can get the URL address as a string, without sending a request to the API server.
+
+``` javascript
+let query = User.findOne({name: 'user1'}).select('name,type').limit(2).offset(10)
+let url = query.getUrl()
+```
+
+Now variable `url` contains the string:
+
+```
+/user/show?where={"name":"user1"}&select=name,type&limit=2&offset=10
+```
+
+
+
+# Methods
+
+### find()
+
+```javascript
+
+Model.find({name: 'admin'}).getUrl()
+Model.find().where({name: 'admin'}).getUrl()
+/*
+  Response: /user/index?where={"name":"admin"}
+*/
+
+Model.find().select('name,email').getUrl()
+/*
+  Response: /user/index?select=name,email
+*/
+
+Model.find().populate('comments,keywords').getUrl()
+Model.find().populate(['comments','keywords']).getUrl()
+/*
+  Response: /user/index?populate=comments,keywords
+*/
+
+Model.find().sort('-name,createdAt').getUrl()
+/*
+  Response: /user/index?sort=-name,createdAt
+*/
+
+Model.find().sort({name: -1, createdAt: 1}).getUrl()
+/* 
+  Response: /user/index?sort={"name":-1,"createdAt":1}
+*/
+
+Model.find().limit(10).getUrl()
+/* 
+  Response: /user/index?limit=10
+
+*/
+
+Model.find().offset(10).getUrl()
+/*
+  Response: /user/index?offset=10
+*/
+```
+
+### findOne()
+
+```javascript
+
+Model.findOne({name: 'admin'}).getUrl()
+Model.findOne().where({name: 'admin'}).getUrl()
+/*
+  Response: /user/show?where={"name":"admin"}
+*/
+
+Model.findOne({name: 'admin'}).select('name,email').getUrl()
+/*
+  Response: /user/show?where={"name":"admin"}&select=name,email
+*/
+
+Model.findOne({name: 'admin'}).populate('comments,keywords').getUrl()
+Model.findOne({name: 'admin'}).populate(['comments','keywords']).getUrl()
+/*
+  Response: /user/show?where={"name":"admin"}&populate=comments,keywords
+*/
+```
+
+### create()
+
+```javascript
+
+Model.create({name: 'admin'}).getUrl()
+
+/*
+  Response: /user/create
+*/
+```
+
+### update()
+
+```javascript
+
+Model.update({name: 'admin'}, {name: 'new name'}).getUrl()
+
+/*
+  Response: /user/update?where={"name":"admin"}
+*/
+```
+
+### delete()
+
+```javascript
+
+Model.delete({name: 'admin'}).getUrl()
+
+/*
+  Response: /user/delete?where={"name":"admin"}
+*/
+```
+
+# Error handlers
+
+```javascript
+let query = User.findOne({name: 'user1'}).select('name,type').exec()
+
+query.catch(error => console.log(error))
+
+/* 
+  Response:
+  { 
+    error: { 
+      message: "Error text from api server" 
+    } 
+  }
+*/
+```
+
 ## More examples
 
 #### GET [/user/index?where={"type":"moderator"}&select=name,type&limit=2](/user/index?where={"type":"moderator"}&select=name,type&limit=2)
@@ -179,34 +311,3 @@ query.then(response => console.log(response))
   }
 */
 ```
-
-#### Error handlers
-
-```javascript
-query.catch(error => console.log(error))
-
-/* 
-  Response:
-  { 
-    error: { 
-      message: "Error text from api server" 
-    } 
-  }
-*/
-```
-
-#### Build url string without request
-
-If you do not want to use the package [request](https://www.npmjs.com/package/request#requestoptions-callback) for api calls, you can get the URL address as a string, without sending a request to the API server.
-
-``` javascript
-let query = User.findOne({name: 'user1'}).select('name,type').limit(2).offset(10)
-let url = query.getUrl()
-```
-
-Now variable `url` contains the string:
-
-```
-/user/show?where={"name":"user1"}&select=name,type&limit=2&offset=10
-```
-

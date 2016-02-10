@@ -17,6 +17,14 @@ npm install rest-api-request --save
 
 # Full example
 
+I do not have more time for write documentation today. Look at tests folder for more examples. 
+The project is in active development. 
+Architecture is not yet determined. 
+**Do not use it in production projects.**
+
+I'll update the documentation and write tests once the architecture will be determined definitively.
+
+
 ```javascript
 'use strict'
 
@@ -42,19 +50,19 @@ let updateUrl = Model.findOne({name: 'testname'}).getUrl()
 let deleteUrl = Model.findOne({name: 'testname'}).getUrl()
 
 console.log('GET %s', indexUrl)
-// Response: GET /platform/index?where={"name":"testname"}
+// Response: GET /platform/index?where[0][name]=testname
 
 console.log('GET %s', showUrl)
-// Response: GET /platform/show?where={"name":"testname"}
+// Response: GET /platform/show?where[0][name]=testname
 
 console.log('POST %s', createUrl)
 // Response: POST /platform/create
 
 console.log('PUT %s', updateUrl)
-// Response: PUT /platform/show?where={"name":"testname"}
+// Response: PUT /platform/show?where[0][name]=testname
 
 console.log('DELETE %s', deleteUrl)
-// Response: DELETE /platform/show?where={"name":"testname"}
+// Response: DELETE /platform/show?where[0][name]=testname
 
 // Testing CRUD with real API server
 
@@ -142,122 +150,21 @@ const User = API.model('user')
 If you do not want to use the package [request](https://www.npmjs.com/package/request#requestoptions-callback) for api calls, you can get the URL address as a string, without sending a request to the API server.
 
 ``` javascript
-let query = User.findOne({name: 'user1'}).select('name,type').limit(2).offset(10)
+let query = User.find({name: 'user1'}).select('name type').limit(2).offset(10)
 let url = query.getUrl()
 ```
 
 Now variable `url` contains the string:
 
 ```
-/user/show?where={"name":"user1"}&select=name,type&limit=2&offset=10
+/user/index?where[0][name]=user1&select[0]=name&select[1]=type&limit=2&offset=10
 ```
 
-
-
-# Methods
-
-### find()
-
-```javascript
-
-Model.find({name: 'admin'}).getUrl()
-Model.find().where({name: 'admin'}).getUrl()
-/*
-  Response: /user/index?where={"name":"admin"}
-*/
-
-Model.find().select('name,email').getUrl()
-/*
-  Response: /user/index?select=name,email
-*/
-
-Model.find().populate('comments,keywords').getUrl()
-Model.find().populate(['comments','keywords']).getUrl()
-/*
-  Response: /user/index?populate=comments,keywords
-*/
-
-Model.find().sort('-name,createdAt').getUrl()
-/*
-  Response: /user/index?sort=-name,createdAt
-*/
-
-Model.find().sort({name: -1, createdAt: 1}).getUrl()
-/* 
-  Response: /user/index?sort={"name":-1,"createdAt":1}
-*/
-
-Model.find().limit(10).getUrl()
-/* 
-  Response: /user/index?limit=10
-
-*/
-
-Model.find().offset(10).getUrl()
-/*
-  Response: /user/index?offset=10
-*/
-```
-
-### findOne()
-
-```javascript
-
-Model.findOne({name: 'admin'}).getUrl()
-Model.findOne().where({name: 'admin'}).getUrl()
-/*
-  Response: /user/show?where={"name":"admin"}
-*/
-
-Model.findOne({name: 'admin'}).select('name,email').getUrl()
-/*
-  Response: /user/show?where={"name":"admin"}&select=name,email
-*/
-
-Model.findOne({name: 'admin'}).populate('comments,keywords').getUrl()
-Model.findOne({name: 'admin'}).populate(['comments','keywords']).getUrl()
-/*
-  Response: /user/show?where={"name":"admin"}&populate=comments,keywords
-*/
-```
-
-### create()
-
-```javascript
-
-Model.create({name: 'admin'}).getUrl()
-
-/*
-  Response: /user/create
-*/
-```
-
-### update()
-
-```javascript
-
-Model.update({name: 'admin'}, {name: 'new name'}).getUrl()
-
-/*
-  Response: /user/update?where={"name":"admin"}
-*/
-```
-
-### delete()
-
-```javascript
-
-Model.delete({name: 'admin'}).getUrl()
-
-/*
-  Response: /user/delete?where={"name":"admin"}
-*/
-```
 
 # Error handlers
 
 ```javascript
-let query = User.findOne({name: 'user1'}).select('name,type').exec()
+let query = User.findOne({name: 'user1'}).select('name type').exec()
 
 query.catch(error => console.log(error))
 
@@ -267,49 +174,6 @@ query.catch(error => console.log(error))
     error: { 
       message: "Error text from api server" 
     } 
-  }
-*/
-```
-
-## More examples
-
-#### GET [/user/index?where={"type":"moderator"}&select=name,type&limit=2](/user/index?where={"type":"moderator"}&select=name,type&limit=2)
-
-```javascript
-let query = User.find({type: 'moderator'}).select('name,type').limit(2).exec()
-
-query.then(response => console.log(response))
-
-/* 
-  Response: 
-  [ 
-    { 
-      _id: '56b2ab8708a3b0fa3e813b6a', 
-      name: 'user1', 
-      type: 'moderator' 
-    }, 
-    { 
-      _id: '56b60ef005e4d1667563c50b', 
-      name: 'user2', 
-      type: 'moderator' 
-    } 
-  ]
-*/
-```
-
-#### GET [/user/show?where={"name":"user1"}&select=name,type](/user/show?where={"name":"user1"}&select=name,type)
-
-```javascript
-let query = User.findOne({name: 'user1'}).select('name,type').exec()
-
-query.then(response => console.log(response))
-
-/* 
-  Response: 
-  { 
-    _id: '56b2ab8708a3b0fa3e813b6a', 
-    name: 'user1', 
-    type: 'moderator' 
   }
 */
 ```

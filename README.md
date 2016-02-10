@@ -150,14 +150,14 @@ const User = API.model('user')
 If you do not want to use the package [request](https://www.npmjs.com/package/request#requestoptions-callback) for api calls, you can get the URL address as a string, without sending a request to the API server.
 
 ``` javascript
-let query = User.find({name: 'user1'}).select('name type').limit(2).offset(10)
+let query = User.find({name: 'user1'}).select('name type').limit(2).skip(10)
 let url = query.getUrl()
 ```
 
 Now variable `url` contains the string:
 
 ```
-/user/index?where[0][name]=user1&select[0]=name&select[1]=type&limit=2&offset=10
+/user/index?where[0][name]=user1&select[0]=name&select[1]=type&limit=2&skip=10
 ```
 
 

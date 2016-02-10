@@ -27,8 +27,8 @@ module.exports.previewQuery = (req, res, next) => {
   if (req.query.limit) queryText += `.limit(${req.query.limit})\n`
   
 
-  queryText += "\n\n// offset\n\n"
-  if (req.query.offset) queryText += `.offset(${req.query.offset})\n`
+  queryText += "\n\n// skip\n\n"
+  if (req.query.skip) queryText += `.skip(${req.query.skip})\n`
 
   queryText += "\n\n</code><pre>"
 

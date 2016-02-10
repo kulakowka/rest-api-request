@@ -56,9 +56,9 @@ let testQuery = Model.find({name: 'kulakowka'})
                 
                 .limit(10)
                   
-                // Offset
+                // skip
                 
-                .offset(10)
+                .skip(10)
 
 
 module.exports.getUrl = () =>  testQuery.getUrl()

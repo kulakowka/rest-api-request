@@ -7,13 +7,11 @@ const options = {
   baseUrl: 'http://localhost:3333'
 }
 
-const app = require('./tests/express')
 const API = require('../lib/request')(options)
 
 // Define model
 
 const Model = API.model('test')
-
 
 async.series({
   create: (callback) => {

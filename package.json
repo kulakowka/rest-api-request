@@ -1,6 +1,6 @@
 {
   "name": "rest-api-request",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Library for easy communication with the API server",
   "main": "lib/request.js",
   "repository": {

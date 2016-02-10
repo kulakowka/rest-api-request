@@ -22,38 +22,33 @@ app.get('/', (req, res, next) => {
     <pre><code class="javascript">
 Model
   .find({name: 'kulakowka'})
-  
   .where({isAdmin: true})
   .where({gender: 'female'})
-  
   .populate('comments')
   .populate('user', 'name fullname')
   .populate({
     path: 'owner',
     select: 'name',
-    match: { 
-      color: 'black' 
+    match: {
+      color: 'black'
     },
-    options: { 
-      sort: { 
-        name: -1 
+    options: {
+      sort: {
+        name: -1
       }
     }
   })
   .populate('car1   car2    car3')
-
   .select('name age +notselected')
   .select('name age -password')
   .select({
-    name: 1, 
-    user: 1, 
+    name: 1,
+    user: 1,
     source: -1
   })
-
   .sort({ createdAt: -1, name: -1 })
-
   .limit(10)
-  .offset(10)
+  .skip(10)
     </code></pre>
     <p>GET: <a href="${demoUrl}">${decodeURIComponent(demoUrl)}</a></p>
     <br>
